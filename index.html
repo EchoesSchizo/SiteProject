@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игры для изучения английского языка</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f7ff;
+            color: #333;
+            line-height: 1.6;
+            padding-bottom: 40px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #4a6fa5, #2c3e50);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .description {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .difficulty-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .filter-btn {
+            background-color: #e9f0fa;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .filter-btn:hover {
+            background-color: #d4e3fc;
+            transform: translateY(-2px);
+        }
+        
+        .filter-btn.active {
+            background-color: #4a6fa5;
+            color: white;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-box {
+            background-color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            min-width: 180px;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4a6fa5;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .games-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .game-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .game-header {
+            padding: 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .beginner .game-header {
+            background: linear-gradient(to right, #2ecc71, #27ae60);
+        }
+        
+        .intermediate .game-header {
+            background: linear-gradient(to right, #3498db, #2980b9);
+        }
+        
+        .advanced .game-header {
+            background: linear-gradient(to right, #9b59b6, #8e44ad);
+        }
+        
+        .game-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .difficulty-badges {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: flex-end;
+        }
+        
+        .difficulty-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-align: center;
+            min-width: 100px;
+        }
+        
+        .beginner-badge {
+            background-color: rgba(46, 204, 113, 0.9);
+            color: white;
+        }
+        
+        .intermediate-badge {
+            background-color: rgba(52, 152, 219, 0.9);
+            color: white;
+        }
+        
+        .advanced-badge {
+            background-color: rgba(155, 89, 182, 0.9);
+            color: white;
+        }
+        
+        .game-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .game-description {
+            margin-bottom: 20px;
+            color: #555;
+            font-size: 1rem;
+            flex-grow: 1;
+        }
+        
+        .download-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .download-info i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .download-required {
+            color: #3498db;
+        }
+        
+        .download-not-required {
+            color: #2ecc71;
+        }
+        
+        .game-link {
+            display: inline-block;
+            background-color: #4a6fa5;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .game-link:hover {
+            background-color: #3a5a80;
+        }
+        
+        .game-link i {
+            margin-right: 8px;
+        }
+        
+        .no-games {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            color: #777;
+            background-color: white;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        /* Адаптивность для мобильных устройств */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+                padding: 0 15px;
+            }
+            
+            .games-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .filter-btn {
+                padding: 10px 18px;
+                font-size: 0.9rem;
+            }
+            
+            .description {
+                padding: 20px;
+                font-size: 1rem;
+            }
+            
+            .stat-box {
+                min-width: 140px;
+                padding: 12px 15px;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .difficulty-filter {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .filter-btn {
+                width: 90%;
+                justify-content: center;
+            }
+            
+            .game-title {
+                font-size: 1.3rem;
+            }
+            
+            .stats {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .stat-box {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-language"></i> Игры для изучения английского</h1>
+            <p class="subtitle">Школьный проект по подборке игр для изучения английского языка. Все игры распределены по уровням сложности.</p>
+        </div>
+    </header>
+    
+    <main class="container">
+        <section class="description">
+            <p>Этот сайт создан в рамках школьного проекта и представляет подборку игр для изучения английского языка. Здесь вы найдете игры, которые помогут в изучении новых слов, понимании грамматики и развитии языковых навыков. Все игры разделены по уровням сложности: начинающий, средний и сложный. Некоторые игры доступны онлайн, другие нужно скачать.</p>
+        </section>
+        
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-number">11</div>
+                <div class="stat-label">Всего игр</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">6</div>
+                <div class="stat-label">Требуют скачивания</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">5</div>
+                <div class="stat-label">Доступны онлайн</div>
+            </div>
+        </div>
+        
+        <div class="difficulty-filter">
+            <button class="filter-btn active" data-difficulty="all">
+                <i class="fas fa-globe"></i> Все игры
+            </button>
+            <button class="filter-btn" data-difficulty="beginner">
+                <i class="fas fa-seedling"></i> Начинающий (7)
+            </button>
+            <button class="filter-btn" data-difficulty="intermediate">
+                <i class="fas fa-chart-line"></i> Средний (5)
+            </button>
+            <button class="filter-btn" data-difficulty="advanced">
+                <i class="fas fa-rocket"></i> Сложный (5)
+            </button>
+        </div>
+        
+        <div class="games-container">
+            <!-- Игры будут добавлены через JavaScript -->
+        </div>
+    </main>
+    
+    <footer class="container">
+        <p>© 2026 Школьный проект "Игры на английском: как прокачать словарный запас".</p>
+        <p style="margin-top: 10px; font-size: 0.9rem;">Все игры собраны в образовательных целях. Ссылки на сторонние ресурсы.</p>
+    </footer>
+    
+    <script>
+        // Массив игр с данными и правильными ссылками
+        const games = [
+            {
+                id: 1,
+                title: "ESL Crossword Puzzles",
+                description: "Кроссворды на английском языке для начинающих. Помогает запоминать слова и их написание в увлекательной форме.",
+                link: "http://eslcrosswords.com/",
+                levels: ["beginner", "intermediate", "advanced"],
+                downloadable: false
+            },
+            {
+                id: 2,
+                title: "Games to learn English",
+                description: "Большая коллекция онлайн-игр для изучения английского: словарный запас, грамматика, аудирование.",
+                link: "https://www.gamestolearnenglish.com/",
+                levels: ["beginner", "intermediate", "advanced"],
+                downloadable: false
+            },
+            {
+                id: 3,
+                title: "Digital Dialects",
+                description: "Интерактивные игры для изучения английской лексики с озвучкой и визуальными подсказками.",
+                link: "https://www.digitaldialects.com/English.htm",
+                levels: ["beginner"],
+                downloadable: false
+            },
+            {
+                id: 4,
+                title: "The Sims 4",
+                description: "Симулятор жизни, где можно погрузиться в англоязычную среду, общаться с персонажами и читать описания на английском.",
+                link: "https://www.ea.com/games/the-sims/the-sims-4",
+                levels: ["beginner"],
+                downloadable: true
+            },
+            {
+                id: 5,
+                title: "Stardew Valley",
+                description: "Фермерский симулятор с диалогами на английском, заданиями и описаниями предметов. Идеально для изучения бытовой лексики.",
+                link: "https://store.steampowered.com/app/413150/Stardew_Valley/",
+                levels: ["beginner"],
+                downloadable: true
+            },
+            {
+                id: 6,
+                title: "Minecraft",
+                description: "Популярная песочница с английским интерфейсом и возможностью общаться на английском в multiplayer режиме.",
+                link: "https://www.minecraft.net/ru-ru",
+                levels: ["beginner"],
+                downloadable: true
+            },
+            {
+                id: 7,
+                title: "Freerice",
+                description: "Онлайн-викторина, где за правильные ответы жертвуется рис голодающим. Разные уровни сложности по английскому языку.",
+                link: "https://freerice.com/",
+                levels: ["intermediate", "advanced"],
+                downloadable: false
+            },
+            {
+                id: 8,
+                title: "Life is Strange",
+                description: "Приключенческая игра с глубоким сюжетом и диалогами на английском. Помогает улучшить понимание разговорной речи.",
+                link: "https://lifeisstrange.square-enix-games.com/en-us",
+                levels: ["intermediate"],
+                downloadable: true
+            },
+            {
+                id: 9,
+                title: "The Walking Dead",
+                description: "Эмоциональная игра с быстрыми диалогами и сложными моральными выборами на английском языке.",
+                link: "https://store.steampowered.com/app/207610/The_Walking_Dead/",
+                levels: ["intermediate"],
+                downloadable: true
+            },
+            {
+                id: 10,
+                title: "The Grammar of Doom",
+                description: "Сложная приключенческая игра, где нужно решать грамматические задачи на английском, чтобы продвигаться по сюжету.",
+                link: "https://www.english-online.org.uk/games/grofdoom/grofdoom1.htm",
+                levels: ["advanced"],
+                downloadable: false
+            },
+            {
+                id: 11,
+                title: "Civilization VI",
+                description: "Стратегическая игра с большим количеством текста, дипломатическими диалогами и историческими описаниями на английском.",
+                link: "https://civilization.2k.com",
+                levels: ["advanced"],
+                downloadable: true
+            }
+        ];
+
+        // Функция для создания карточки игры
+        function createGameCard(game) {
+            // Определяем основной класс сложности (первый уровень в массиве)
+            const mainLevel = game.levels[0];
+            
+            // Создаем контейнер карточки
+            const gameCard = document.createElement('div');
+            gameCard.className = `game-card ${mainLevel}`;
+            gameCard.setAttribute('data-levels', game.levels.join(','));
+            
+            // Создаем заголовок с названием и бейджами сложности
+            const gameHeader = document.createElement('div');
+            gameHeader.className = 'game-header';
+            
+            const gameTitle = document.createElement('h3');
+            gameTitle.className = 'game-title';
+            gameTitle.textContent = game.title;
+            
+            const difficultyBadges = document.createElement('div');
+            difficultyBadges.className = 'difficulty-badges';
+            
+            // Добавляем бейджи для каждого уровня сложности игры
+            game.levels.forEach(level => {
+                const badge = document.createElement('div');
+                badge.className = `difficulty-badge ${level}-badge`;
+                
+                let levelText = '';
+                switch(level) {
+                    case 'beginner': levelText = 'Начинающий'; break;
+                    case 'intermediate': levelText = 'Средний'; break;
+                    case 'advanced': levelText = 'Сложный'; break;
+                }
+                
+                badge.textContent = levelText;
+                difficultyBadges.appendChild(badge);
+            });
+            
+            gameHeader.appendChild(gameTitle);
+            gameHeader.appendChild(difficultyBadges);
+            
+            // Создаем контент карточки
+            const gameContent = document.createElement('div');
+            gameContent.className = 'game-content';
+            
+            const gameDescription = document.createElement('p');
+            gameDescription.className = 'game-description';
+            gameDescription.textContent = game.description;
+            
+            // Добавляем информацию о скачивании
+            const downloadInfo = document.createElement('div');
+            downloadInfo.className = 'download-info';
+            
+            const downloadIcon = document.createElement('i');
+            const downloadText = document.createElement('span');
+            
+            if (game.downloadable) {
+                downloadIcon.className = 'fas fa-download download-required';
+                downloadText.textContent = 'Требует скачивания и установки';
+                downloadText.className = 'download-required';
+            } else {
+                downloadIcon.className = 'fas fa-play-circle download-not-required';
+                downloadText.textContent = 'Можно играть онлайн';
+                downloadText.className = 'download-not-required';
+            }
+            
+            downloadInfo.appendChild(downloadIcon);
+            downloadInfo.appendChild(downloadText);
+            
+            // Создаем ссылку на игру
+            const gameLink = document.createElement('a');
+            gameLink.href = game.link;
+            gameLink.className = 'game-link';
+            gameLink.target = '_blank';
+            
+            const linkIcon = document.createElement('i');
+            linkIcon.className = game.downloadable ? 'fas fa-download' : 'fas fa-external-link-alt';
+            
+            const linkText = document.createTextNode(game.downloadable ? ' Скачать игру' : ' Играть онлайн');
+            
+            gameLink.appendChild(linkIcon);
+            gameLink.appendChild(linkText);
+            
+            // Собираем карточку
+            gameContent.appendChild(gameDescription);
+            gameContent.appendChild(downloadInfo);
+            gameContent.appendChild(gameLink);
+            
+            gameCard.appendChild(gameHeader);
+            gameCard.appendChild(gameContent);
+            
+            return gameCard;
+        }
+
+        // Функция для отображения игр
+        function displayGames(gamesToShow) {
+            const gamesContainer = document.querySelector('.games-container');
+            gamesContainer.innerHTML = '';
+            
+            if (gamesToShow.length === 0) {
+                const noGamesMessage = document.createElement('div');
+                noGamesMessage.className = 'no-games';
+                noGamesMessage.id = 'no-games-message';
+                noGamesMessage.innerHTML = `
+                    <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 15px; color: #aaa;"></i>
+                    <p>Игр с выбранным уровнем сложности не найдено. Попробуйте выбрать другую категорию.</p>
+                `;
+                gamesContainer.appendChild(noGamesMessage);
+                noGamesMessage.style.display = 'block';
+                return;
+            }
+            
+            gamesToShow.forEach(game => {
+                const gameCard = createGameCard(game);
+                gamesContainer.appendChild(gameCard);
+            });
+            
+            // Добавляем анимацию появления карточек
+            setTimeout(() => {
+                const cards = gamesContainer.querySelectorAll('.game-card');
+                cards.forEach((card, index) => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+            }, 100);
+        }
+
+        // Функция для фильтрации игр по сложности
+        function filterGames(difficulty) {
+            let filteredGames;
+            
+            if (difficulty === 'all') {
+                filteredGames = games;
+            } else {
+                filteredGames = games.filter(game => game.levels.includes(difficulty));
+            }
+            
+            displayGames(filteredGames);
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const gamesContainer = document.querySelector('.games-container');
+            
+            // Изначально показываем все игры
+            displayGames(games);
+            
+            // Обработчики событий для кнопок фильтра
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Удаляем активный класс у всех кнопок
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Добавляем активный класс нажатой кнопке
+                    this.classList.add('active');
+                    
+                    // Получаем уровень сложности из data-атрибута
+                    const difficulty = this.getAttribute('data-difficulty');
+                    
+                    // Фильтруем игры
+                    filterGames(difficulty);
+                });
+            });
+            
+            // Обработчик для скачиваемых игр (предупреждение)
+            gamesContainer.addEventListener('click', function(e) {
+                if (e.target.closest('.game-link') && e.target.closest('.game-link').classList.contains('game-link')) {
+                    const link = e.target.closest('.game-link');
+                    const gameName = link.closest('.game-card').querySelector('.game-title').textContent;
+                    
+                    // Проверяем, является ли игра скачиваемой
+                    const gameCard = link.closest('.game-card');
+                    const downloadInfo = gameCard.querySelector('.download-info .download-required');
+                    
+                    if (downloadInfo) {
+                        const confirmDownload = confirm(`Вы собираетесь перейти на страницу скачивания игры "${gameName}". Убедитесь, что доверяете источнику файла. Продолжить?`);
+                        
+                        if (!confirmDownload) {
+                            e.preventDefault();
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
